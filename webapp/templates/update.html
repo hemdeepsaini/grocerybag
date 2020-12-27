@@ -1,0 +1,48 @@
+<html>
+    {% load static %}
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Update List</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+        <a href="{% url 'appweb:homepage' %}" style="position: absolute;left: 10px;top: 5px;">HOME</a>
+        <div class="container mt-5">
+            <h1>Update Grocery List</h1>
+            <form method='POST' action="{% url 'appweb:delete_add' item.id %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Item name</label>
+                    <input type="text" class="form-control" placeholder="Item name" name="name" value="{{ item.item_name}}"/>
+                </div>
+                <div class="form-group">
+                    <label>Item quantity</label>
+                    <input type="text" class="form-control" placeholder="Item quantity" name="quantity" value="{{ item.item_quantity }}"/>
+                </div>
+                <div class="form-group">
+                    <label>Item status</label>
+                    <select class="form-control" name="status" value="{{ item.item_status }}">    
+                        <option value="0" {% ifequal item.item_status 0 %} selected {% endifequal %}>PENDING</option>
+                        <option value="1" {% ifequal item.item_status 1 %} selected {% endifequal %}>BOUGHT</option>
+                        <option value="2" {% ifequal item.item_status 2 %} selected {% endifequal %}>NOT AVAILABLE</option>
+                            
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" class="form-control" placeholder="Date" value="{{item.date}}" name="date">
+                    <!-- <label>OldDate-{{item.date}}</label> -->
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-danger">
+                </div>
+            </form>
+        </div>
+        <div class="container mt-5">
+            {% for msg in messages %}
+                      <h5 style='color:red;'> {{msg}}</h5>
+            {% endfor %}
+        </div>
+    </body> 
+</html>
